@@ -1,0 +1,21 @@
+main {
+  display: flex;
+  flex-direction: row-reverse;
+  height: 100vh;
+}
+
+section {
+  &.navigation {
+    background: rgb(38, 35, 53);
+    height: 100%;
+    color: white;
+    flex: 1;
+    padding: 3em 0 0 3em;
+  }
+  &.component-viewer {
+    background: rgb(247, 247, 247);
+    height: 100%;
+    flex: 3;
+    padding: 3em;
+  }
+}
