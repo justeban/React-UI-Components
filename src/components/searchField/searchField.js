@@ -12,10 +12,14 @@ export default class SearchField extends Component {
       availableWords: [],
       indexForActiveElement: -1,
       query: '',
+      searchLimit: 10,
       value: null
     } 
   }
 
+  config = {
+    
+  }
   /** __EVENT HANDLERS__ **/
 
   // FORM EVENTS 
@@ -66,6 +70,12 @@ export default class SearchField extends Component {
 
   hanleAvailableWordListOnBlur = (e) => {
     this.setState({ indexForActiveElement: -1});
+  }
+
+  // OPTIONS EVENTS
+  handleOptionsOnChange = (e) => {
+    const searchLimit = e.value;
+    this.setState({searchLimit});
   }
 
   /** __END OF EVENT HANDLERS__ **/
@@ -128,8 +138,7 @@ export default class SearchField extends Component {
         availableWords &&
         availableWords.length > 0 &&
         availableWords.map((el, index) => (
-          index > 10 ?
-            null :
+          index < this.props.config.searchLimit ?
             <li 
               // EVENT HANDLERS
               onClick={this.handleAvailableWordOnClick} 
@@ -142,6 +151,7 @@ export default class SearchField extends Component {
                 el
               }
             </li>
+            : null
         ))
       }
     </ul>

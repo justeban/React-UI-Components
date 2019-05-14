@@ -4,6 +4,21 @@ main {
   height: 100vh;
 }
 
+h1 {
+  margin: 0;
+  margin-bottom: 1em;
+  position: relative;
+
+  &:before {
+    content: '';
+    border-bottom: solid 1px rgba(255,255,255,.5);
+    height: 100%;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 60%;
+  }
+}
 section {
   &.navigation {
     background: rgb(38, 35, 53);
@@ -11,6 +26,38 @@ section {
     color: white;
     flex: 1;
     padding: 3em 0 0 3em;
+
+    li {
+      cursor: pointer;
+      list-style-type: none;
+      transition: all .3s ease;
+
+      &:hover img:nth-child(1) {
+        animation: rotate 3s linear infinite;
+      }
+      img {
+        display: inline-block;
+        vertical-align: middle;
+      }
+      img.react-logo {
+        width: 2em;
+      }
+      img.arrow {
+        margin: 0 0 7px 34px;
+        transition: all .3s ease;
+        width: .8em;
+      }
+      img.arrow.pointed-left {
+        transform: rotate(90deg);
+        transform-origin: 50% 70%;
+      }
+
+      h2 {
+        display: inline-block;
+        margin: 0;
+        vertical-align: middle;
+      }
+    }
   }
   &.component-viewer {
     background: rgb(247, 247, 247);
@@ -18,4 +65,9 @@ section {
     flex: 3;
     padding: 3em;
   }
+}
+
+@keyframes rotate {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
 }

@@ -1,5 +1,7 @@
 import React, {Component}  from 'react';
 
+import NavigationListItem from './components/navigationListItem/navigationListItem';
+
 // SCSS
 import './App.scss';
 
@@ -15,8 +17,18 @@ export default class App extends Component {
       components: [
         'Search Field',
       ],
-      selectedComponent: ''
+      selectedComponent: '',
+      configOptions: {
+        'Search Field': {
+          searchLimit: 10
+        }
+      }
     };
+  }
+
+  configHandler = (newConfigOptions) => {
+    console.log({newConfigOptions});
+    this.setState({configOptions: newConfigOptions})
   }
 
   handleOnClick = (selectedComponent) => {
@@ -27,17 +39,26 @@ export default class App extends Component {
     return (
       <main>
         <section className="navigation">
-          <h2>React UI Components</h2>
+          <h1>React UI Components</h1>
           <nav>
             {
               this.state.components.map((el, index) => (
-                <li key={index} onClick={() => this.handleOnClick(el)}>{el}</li>
+                <NavigationListItem
+                  configHandler={this.configHandler}
+                  config={this.state.configOptions[el]}
+                  key={index}
+                  el={el}
+                  handleOnClick={this.handleOnClick}
+                />
               ))
             }
           </nav>
         </section>
         <section className="component-viewer">
-          { this.state.selectedComponent === 'Search Field' ? <SearchField /> : null }
+          { this.state.selectedComponent === 'Search Field' ? 
+            <SearchField config={this.state.configOptions['Search Field']} /> 
+            : null
+          }
         </section>
       </main>
     );
