@@ -156,6 +156,17 @@ export default class SearchField extends Component {
       }
     </ul>
   )
+  renderNoAvailableWords = () => {
+    return this.state.query 
+      && this.state.query.length > 0 
+      && !this.state.value
+      ? (<p className="no-available-words">
+          <em>
+            No Matching Words Available
+          </em>
+        </p>)
+      : null;
+    };
 
   render() {
     return(
@@ -175,7 +186,8 @@ export default class SearchField extends Component {
             {
               this.state.availableWords && 
               this.state.availableWords.length > 0
-              ? this.renderAvailableWords() : null
+              ? this.renderAvailableWords() 
+              : this.renderNoAvailableWords()
             }
             </div>
         </form>
