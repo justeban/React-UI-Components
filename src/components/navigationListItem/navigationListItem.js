@@ -1,5 +1,7 @@
 import React from 'react';
 
+import './navigationListItem.scss';
+
 //ASSETS
 import reactLogo from '../../assets/640px-React-icon.png';
 import downArrow from '../../assets/sort-down-solid.svg';
