@@ -7,6 +7,7 @@ import './App.scss';
 
 // COMPONENTS
 import SearchField from './components/searchField/searchField';
+import SearchFieldOptions from './components/searchField/searchFieldOptions';
 
 export default class App extends Component {
 
@@ -16,23 +17,27 @@ export default class App extends Component {
     this.state = {
       components: [
         'Search Field',
+        'COMPONENTS'
       ],
-      selectedComponent: '',
+      componentOptions: {
+        'Search Field': SearchFieldOptions
+      },
       configOptions: {
         'Search Field': {
           searchLimit: 10
         }
-      }
+      },
+      selectedComponent: ''
+      
     };
   }
 
   configHandler = (newConfigOptions) => {
-    console.log({newConfigOptions});
     this.setState({configOptions: newConfigOptions})
   }
 
   handleOnClick = (selectedComponent) => {
-    this.setState(Object.assign({}, this.state, {selectedComponent}));
+    this.setState({selectedComponent});
   }
 
   render() {
@@ -46,18 +51,18 @@ export default class App extends Component {
                 <NavigationListItem
                   configHandler={this.configHandler}
                   config={this.state.configOptions[el]}
-                  key={index}
                   el={el}
                   handleOnClick={this.handleOnClick}
+                  key={index}
+                  options={this.state.componentOptions[el]}
                 />
               ))
             }
           </nav>
         </section>
         <section className="component-viewer">
-          { this.state.selectedComponent === 'Search Field' ? 
+          { this.state.selectedComponent === 'Search Field' && 
             <SearchField config={this.state.configOptions['Search Field']} /> 
-            : null
           }
         </section>
       </main>

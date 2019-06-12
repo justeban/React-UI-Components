@@ -1,0 +1,59 @@
+@keyframes rotate {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+@keyframes slideDown {
+    from { height: 0%; }
+    to { height: 100%; }
+}
+@keyframes slideUp {
+    from { height: 100%; }
+    to { height: 0%;}
+}
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+@keyframes fadeOut {
+    from { opacity: 1; }
+    to { opacity: 0; display: none; }
+}
+@keyframes marginOpen {
+    from { margin: 0em 0em; }
+    to { margin: 1em 0em; }
+}
+@keyframes marginClose {
+    from { margin: 1em 0em; }
+    to { margin: 0em 0em; }
+
+}
+@keyframes disappear {
+    from { 
+        height: 100%;
+        line-height: 40px;
+        margin: 16px 0 16px 0;
+        padding: 30px 0 30px 40px; 
+    }
+    to {
+        height: 0%;
+        line-height: 0px;
+        margin: 0px 0 0px 0;
+        padding: 0px 0 0px 40px;
+    }
+}
+@keyframes appear {
+    from { 
+        height: 0%;
+        line-height: 0px;
+        margin: 0px 0 0px 0;
+        line-height: 0px;
+        padding: 0px 0 0px 40px; 
+    }
+    to { 
+        height: 100%;
+        line-height: 40px;
+        margin: 16px 0 16px 0;
+        line-height: 40px;
+        padding: 30px 0 30px 40px; 
+    }
+}

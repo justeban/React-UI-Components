@@ -1,10 +1,10 @@
-import React, {Component} from 'react';
+import React from 'react';
 import * as SearchService from './api';
 
 // SCSS
 import './searchField.scss';
 
-export default class SearchField extends Component {
+export default class SearchField extends React.Component {
 
   constructor(props) {
     super(props);
@@ -12,14 +12,11 @@ export default class SearchField extends Component {
       availableWords: [],
       indexForActiveElement: -1,
       query: '',
-      searchLimit: 10,
+      searchLimit: this.props.config.searchLimit,
       value: null
     } 
   }
 
-  config = {
-    
-  }
   /** __EVENT HANDLERS__ **/
 
   // FORM EVENTS 
@@ -34,7 +31,6 @@ export default class SearchField extends Component {
   handleFormOnKeyDown = (e) => {
     // IF TAB INCREMENT INDEX
     if (e.keyCode === 9) {
-      console.log('WE GOT HERE');
       this.setState({ indexForActiveElement: this.state.indexForActiveElement + 1 });
     }
     this.traverseAvailableWords(e.keyCode);
@@ -138,7 +134,7 @@ export default class SearchField extends Component {
         availableWords &&
         availableWords.length > 0 &&
         availableWords.map((el, index) => (
-          index < this.props.config.searchLimit ?
+          index < this.props.config.searchLimit &&
             <li 
               // EVENT HANDLERS
               onClick={this.handleAvailableWordOnClick} 
@@ -151,7 +147,6 @@ export default class SearchField extends Component {
                 el
               }
             </li>
-            : null
         ))
       }
     </ul>
@@ -160,12 +155,11 @@ export default class SearchField extends Component {
     return this.state.query 
       && this.state.query.length > 0 
       && !this.state.value
-      ? (<p className="no-available-words">
+      && (<p className="no-available-words">
           <em>
             No Matching Words Available
           </em>
-        </p>)
-      : null;
+        </p>);
     };
 
   render() {
@@ -192,8 +186,7 @@ export default class SearchField extends Component {
             </div>
         </form>
         {
-          this.state.value 
-          ? this.renderWordEntry() : null
+          this.state.value && this.renderWordEntry()
         }
       </section>
     );
