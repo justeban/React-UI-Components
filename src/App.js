@@ -9,6 +9,8 @@ import './App.scss';
 import SearchField from './components/searchField/searchField';
 import SearchFieldOptions from './components/searchField/searchFieldOptions';
 
+import DragAndDrop from './components/dragAndDrop/dragAndDrop';
+
 export default class App extends Component {
 
   constructor(props) {
@@ -17,7 +19,7 @@ export default class App extends Component {
     this.state = {
       components: [
         'Search Field',
-        'COMPONENTS'
+        'Drag and Drop'
       ],
       componentOptions: {
         'Search Field': SearchFieldOptions
@@ -25,9 +27,11 @@ export default class App extends Component {
       configOptions: {
         'Search Field': {
           searchLimit: 10
+        },
+        'Drag and Drop': {
         }
       },
-      selectedComponent: ''
+      selectedComponent: 'Drag and Drop'
       
     };
   }
@@ -63,6 +67,10 @@ export default class App extends Component {
         <section className="component-viewer">
           { this.state.selectedComponent === 'Search Field' && 
             <SearchField config={this.state.configOptions['Search Field']} /> 
+          }
+          {
+            this.state.selectedComponent === 'Drag and Drop' &&
+            <DragAndDrop config={this.state.configOptions['Drag and Drop']} />
           }
         </section>
       </main>

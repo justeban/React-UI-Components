@@ -1,0 +1,38 @@
+section.drag-and-drop {
+    height: 100%;
+
+    .moving-target {
+        opacity: .5;
+    }
+
+    h3 {
+        text-align: center;
+    }
+    div.col-2 {
+        display: flex;
+        height: 90%;
+
+        div.column {
+            background: white;
+            border: solid 1px #ddd;
+            border-radius: 12px;
+            flex: 1;
+            margin: 2em;
+
+            h4 {
+                text-align: center;
+            }
+
+            div.tasks {
+                div.task {
+                    background: #f7f7f7;
+                    border: solid 1px #ddd;
+                    border-radius: 3px;
+                    margin: 2em;
+                    padding: 2em;
+                    text-align: center;
+                }
+            }
+        }
+    }
+}
