@@ -1,0 +1,36 @@
+@import '../../../styles/animations';
+
+section {
+  &.message-block {
+    display: flex;
+    height: 100%;
+    left: 0;
+    padding: 2em;
+    position: absolute;
+    top: 0;
+    width: 100%;
+
+    animation: fly-in-from-bottom .3s ease;
+
+    .content {
+      align-items: center;
+      background: white;
+      border-radius: 12px;
+      display: flex;
+      flex-direction: column;
+      margin: 0 auto;
+      padding: 1em;
+      overflow-y: scroll;
+      text-align: center;
+      width: 68%;
+
+      div {
+        flex: 1;
+      }
+      button {
+        float: none;
+        width: 15%;
+      }
+    }
+  }
+}

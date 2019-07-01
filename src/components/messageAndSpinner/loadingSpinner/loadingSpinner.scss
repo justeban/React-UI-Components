@@ -1,0 +1,158 @@
+// Define vars we'll be using
+$brand-success: #5cb85c;
+$brand-failure: #ff3636;
+$loader-size: 5em;
+$check-height: $loader-size/2;
+$check-width: $check-height/2;
+$check-left: ($loader-size/6 + $loader-size/12);
+$check-thickness: 3px;
+$check-color: $brand-success;
+$x-color: $brand-failure;
+
+.spinner-container {
+  background: #262335;
+  border-radius: 12px;
+  height: 100%;
+  left: 50%;
+  opacity: .8;
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 70%;
+
+}
+
+.circle-loader-container {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+}
+.circle-loader {
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  border-left-color: $check-color;
+  animation: loader-spin 1.2s infinite linear;
+  position: relative;
+  display: inline-block;
+  vertical-align: top;
+  border-radius: 50%;
+  width: $loader-size;
+  height: $loader-size;
+}
+
+.load-complete {
+  -webkit-animation: none;
+  animation: none;
+  border-color: $check-color;
+  transition: border 500ms ease-out;
+
+  &.error {
+    border-color: $brand-failure
+  }
+}
+
+.checkmark {
+  display: none;
+  
+  &.draw:after {
+    animation-duration: 800ms;
+    animation-timing-function: ease;
+    animation-name: checkmark;
+    transform: scaleX(-1) rotate(135deg);
+  }
+  
+  &:after {
+    opacity: 1;
+    height: $check-height;
+    width: $check-width;
+    transform-origin: left top;
+    border-right: $check-thickness solid $check-color;
+    border-top: $check-thickness solid $check-color;
+    content: '';
+    left: $check-left;
+    top: $check-height;
+    position: absolute;
+  }
+}
+
+.x {
+  display: none; 
+
+  &.draw:after, &.draw:before {
+    animation-duration: 800ms;
+    animation-timing-function: ease;
+    animation-name: x;
+  }
+  &:after, &:before{
+    position: absolute;
+    transform-origin: left top;
+    content: '';
+    height: $check-thickness;
+    width: $check-height;
+    background-color: $x-color;
+    top: 50%;
+    left: 50%;
+  }
+
+  &:before {
+  transform: rotate(45deg) translate(-50%,-50%);
+}
+  &:after {
+  transform: rotate(-45deg) translate(-50%,-50%);
+}
+}
+
+@keyframes loader-spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes checkmark {
+  0% {
+    height: 0;
+    width: 0;
+    opacity: 1;
+  }
+  20% {
+    height: 0;
+    width: $check-width;
+    opacity: 1;
+  }
+  40% {
+    height: $check-height;
+    width: $check-width;
+    opacity: 1;
+  }
+  100% {
+    height: $check-height;
+    width: $check-width;
+    opacity: 1;
+  }
+}
+
+@keyframes x {
+  0% {
+    height: 0;
+    width: 0;
+    opacity: 1;
+  }
+  20% {
+    height: $check-thickness;
+    width: 0;
+    opacity: 1;
+  }
+  40% {
+    height: $check-thickness;
+    width: $check-height;
+    opacity: 1;
+  }
+  100% {
+    height: $check-thickness;
+    width: $check-height;
+    opacity: 1;
+  }
+}

@@ -10,6 +10,7 @@ import SearchField from './components/searchField/searchField';
 import SearchFieldOptions from './components/searchField/searchFieldOptions';
 
 import DragAndDrop from './components/dragAndDrop/dragAndDrop';
+import MessageAndSpinner from './components/messageAndSpinner/messageAndSpinner';
 
 export default class App extends Component {
 
@@ -19,7 +20,8 @@ export default class App extends Component {
     this.state = {
       components: [
         'Search Field',
-        'Drag and Drop'
+        'Drag and Drop',
+        'Message and Spinner'
       ],
       componentOptions: {
         'Search Field': SearchFieldOptions
@@ -31,7 +33,7 @@ export default class App extends Component {
         'Drag and Drop': {
         }
       },
-      selectedComponent: 'Drag and Drop'
+      selectedComponent: ''
       
     };
   }
@@ -71,6 +73,10 @@ export default class App extends Component {
           {
             this.state.selectedComponent === 'Drag and Drop' &&
             <DragAndDrop config={this.state.configOptions['Drag and Drop']} />
+          }
+          {
+            this.state.selectedComponent === 'Message and Spinner' &&
+            <MessageAndSpinner />
           }
         </section>
       </main>

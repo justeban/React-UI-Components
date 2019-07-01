@@ -40,7 +40,7 @@ export default function DragAndDrop () {
                 return;
         }
     }
-
+    // eslint-disable-next-line
     const addTaskAtIndex = (targetColumn, targetIndex, currentColumn, currentIndex) => {
         const newTasks = [];
         tasks[targetColumn].forEach((el, i) => {
@@ -118,14 +118,6 @@ export default function DragAndDrop () {
             console.log(tasks);
         }
     }
-    
-
-
-    const displayGhostTask = () => (
-        <div id="ghost-task" className="ghost task">
-
-        </div>
-    );
 
      const displayTodos = () => {
         const todos = tasks.todo;
