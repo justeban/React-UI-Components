@@ -1,4 +1,5 @@
 import React from 'react';
+import classNames from 'classnames';
 import * as SearchService from './api';
 
 // SCSS
@@ -13,6 +14,7 @@ export default class SearchField extends React.Component {
       indexForActiveElement: -1,
       query: '',
       searchLimit: this.props.config.searchLimit,
+      exiting: this.props.exiting || false,
       value: null
     } 
   }
@@ -162,33 +164,33 @@ export default class SearchField extends React.Component {
         </p>);
     };
 
-  render() {
-    return(
-      <section className="search-field">
-        <h3>Search Field</h3>
-        <form onSubmit={this.handleFormOnSubmit}>
-          <div>
-            <input 
-              onChange={this.handleOnChange} 
-              onKeyDown={this.handleFormOnKeyDown} 
-              autoComplete="off" 
-              type="text" 
-              name="query"
-              placeholder="Start typing..."
-              value={this.state.query || ''}
-            />
-            {
-              this.state.availableWords && 
-              this.state.availableWords.length > 0
-              ? this.renderAvailableWords() 
-              : this.renderNoAvailableWords()
-            }
-            </div>
-        </form>
-        {
-          this.state.value && this.renderWordEntry()
-        }
-      </section>
-    );
+    render() {
+      return (
+        <section className={classNames({'search-field': true, 'exiting': this.props.config.exiting})}>
+          <h3>Search Field</h3>
+          <form onSubmit={this.handleFormOnSubmit}>
+            <div>
+              <input 
+                onChange={this.handleOnChange} 
+                onKeyDown={this.handleFormOnKeyDown} 
+                autoComplete="off" 
+                type="text" 
+                name="query"
+                placeholder="Start typing..."
+                value={this.state.query || ''}
+              />
+              {
+                this.state.availableWords && 
+                this.state.availableWords.length > 0
+                ? this.renderAvailableWords() 
+                : this.renderNoAvailableWords()
+              }
+              </div>
+          </form>
+          {
+            this.state.value && this.renderWordEntry()
+          }
+        </section>
+      );
   }
 }
