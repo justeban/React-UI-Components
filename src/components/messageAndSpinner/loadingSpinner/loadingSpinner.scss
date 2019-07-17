@@ -75,6 +75,13 @@ $x-color: $brand-failure;
   }
 }
 
+.custom-checkmark {
+  &:after {
+    left: -12px;
+    top: 0;
+  }
+}
+
 .x {
   display: none; 
 

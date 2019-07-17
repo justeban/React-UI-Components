@@ -13,19 +13,26 @@ export default function LoadingSpinner(props) {
   const failureDivStyle = {
     display: props.error ? 'block' : 'none',
   };
-
+  
   return (
     <div className="spinner-container">
       <div className="circle-loader-container">
         {/*toggle "load-complete" to stop spinner */}
         <div className={
           classNames({
-            'circle-loader': true, 
+            'circle-loader': props.show, 
             'load-complete': props.success || props.error,
             'error': props.error,
           })
         }>
-          <div style={successDivStyle} className="checkmark draw"></div>
+          <div 
+            style={successDivStyle}
+            className={classNames({
+              'checkmark': true,
+              'draw': true,
+              'custom-checkmark': props.customCheckMark
+              })}
+          ></div>
           <div style={failureDivStyle} className="x draw"></div>
         </div>
       </div>
