@@ -1,5 +1,10 @@
 section.drag-and-drop {
+    animation: bounceIn 1s ease;
     height: 100%;
+    
+    &.exiting {
+        animation: bounceOut 1s ease;
+    }
 
     .moving-target {
         opacity: .5;
