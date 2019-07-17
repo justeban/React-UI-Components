@@ -23,10 +23,8 @@ export default class Navigation extends React.Component {
   }
 
   handleOptionOnChange = (e) => {
-    this.props.configHandler({
-      [this.props.el]: {
+    this.props.configHandler(this.props.el, {
         [e.target.name]: e.target.value 
-      }
     })
   }
 
