@@ -43,6 +43,7 @@ export default class Navigation extends React.Component {
                 src={downArrow}
                 />
               <this.props.options
+                configHandler={this.props.configHandler}
                 handleOptionOnChange={this.handleOptionOnChange}
                 config={this.props.config}
                 expandOptions={this.state.expandOptions}

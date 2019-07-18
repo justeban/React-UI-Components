@@ -1,10 +1,23 @@
-import React from 'react';
+import React, {useState} from 'react';
 
 export default function PasswordStrengthMeterOptions (props) {
-    const {expandOptions} = props;
+
+    const {config, configHandler, expandOptions} = props;
+
+    const handleOnSubmit = e => {
+        e.preventDefault();
+        const{regexName, regexValue} = e.target;
+        const newRules = {
+            ...config.rules,
+            [regexName.value]: {
+                regex: regexValue.value
+            }
+        }
+        configHandler('Password Strength Meter', {rules: newRules});
+    }
     return (
         <ul className={expandOptions ? 'show' : 'hide'}>
-            <form>
+            <form onSubmit={handleOnSubmit}>
                 <li>
                     <label htmlFor="regexName">Name</label>
                     <input
@@ -21,7 +34,7 @@ export default function PasswordStrengthMeterOptions (props) {
                         name="regexValue"
                     />
                 </li>
-                <buton type="submit">Add Regex</buton>
+                <input type="submit" value="Add +" />
             </form>
         </ul>
     )

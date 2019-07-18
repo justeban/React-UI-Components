@@ -18,27 +18,44 @@ import NavigationListItem from './components/navigationListItem/navigationListIt
 
 export default function App (props) {
 
+  // STATE
+
   const [components] = useState([
-    'Search Field',
     'Drag and Drop',
     'Message and Spinner',
-    'Password Strength Meter'
+    'Password Strength Meter',
+    'Search Field'
   ]);
   const [componentOptions] = useState({
-    'Search Field': SearchFieldOptions,
-    'Password Strength Meter': PasswordStrengthMeterOptions
+    'Password Strength Meter': PasswordStrengthMeterOptions,
+    'Search Field': SearchFieldOptions
   });
 
   const [configOptions, setConfigOptions] = useState({
+    'Drag and Drop': {
+      exiting: false
+    },
+    'Password Strength Meter': {
+      rules: {
+        'At Least One Capital Letter': {
+          regex: '[A-Z]'
+        },
+        'At Least One Number': {
+          regex: '\\d'
+        },
+        'A Special Character, like !,?,@, etc': {
+          regex: '[!@#\\$%\\^\\&*\\)\\(+=._-]+'
+        }
+      }
+    },
     'Search Field': {
       exiting: false,
       searchLimit: 10
-    },
-    'Drag and Drop': {
-      exiting: false
     }
   });
   const [selectedComponent, setSelectedComponent] = useState('');
+
+  // EVENT HANDLERS
 
   const handleOnClick = async (component, transitionTime = 500) => {
 
@@ -51,7 +68,7 @@ export default function App (props) {
     delay(transitionTime - 1, null, () => setConfigValue(prevSelectedComponent, {exiting: false}));
     delay(transitionTime, null, () => setSelectedComponent(component));
   };
-  
+
   const setConfigValue = (component, newProp) => {
     const newConfig = {
       ...configOptions,
@@ -97,7 +114,7 @@ export default function App (props) {
         }
         {
           selectedComponent === 'Password Strength Meter' &&
-          <PasswordStrengthMeter />
+          <PasswordStrengthMeter config={configOptions['Password Strength Meter']}/>
         }
       </section>
     </main>

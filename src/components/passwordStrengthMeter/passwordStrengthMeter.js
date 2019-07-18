@@ -1,72 +1,68 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 
 import Spinner from '../messageAndSpinner/loadingSpinner/loadingSpinner';
 
 import './passwordStrengthMeter.scss';
 
 export default function PasswordStrengthMeter(props) {
+    const [rules, setRules] = useState(props.config.rules);
+    const [ruleKeys, setRuleKeys] = useState(Object.keys(rules));
+    const [password, setPassword] = useState('');
 
-    const [rules] = useState([
-        {
-            name: 'At Least One Capital Letter',
-            regex: '[A-Z]'
-        }, 
-        {
-            name: 'At Least One Number',
-            regex: '\\d'
-        },
-        {
-            name: 'A Special Character, like !,?,@, etc',
-            regex: '[!@#\\$%\\^\\&*\\)\\(+=._-]+'
-        }
-    ]);
+    const [rulesSuccess, setRulesSuccess] =  useState(
+        Object.keys(rules).reduce((acc, ruleKey) => {
+            acc[ruleKey] = false;
+            return acc
+        }, {})
+    );
 
-    const [rulesSuccess, setRulesSuccess] =  useState({
-        'At Least One Capital Letter': false,
-        'At Least One Number': false,
-        'A Special Character, like !,?,@, etc': false
-    });
+    useEffect(() => {
+        setRules(props.config.rules);
+        setRuleKeys(Object.keys(props.config.rules))
+    }, [props.config.rules])
+
+    useEffect(() => {
+        const _rulesSucces = {};
+        ruleKeys.forEach((rule, index) => {
+            const conditionMet = new RegExp(rules[rule].regex, 'g').test(password);
+            _rulesSucces[rule] = conditionMet;
+        });
+        setRulesSuccess(_rulesSucces);
+    }, [password, rules, ruleKeys]);
 
     const handleOnChange = e => {
         const password = e.target.value;
-        const _rulesSucces = {};
-        rules.forEach((rule, index) => {
-            const conditionMet = new RegExp(rule.regex, 'g').test(password);
-            _rulesSucces[rule.name] = conditionMet;
-        });
-        setRulesSuccess(_rulesSucces);
-    }
+        setPassword(password);
+    };
 
     const renderCheckBoxes = () => {
         return (
             <ul className="password-checks">
                 {
-                    rules.map((rule, i) => {
-                        console.log(rulesSuccess);
-                        return (
+                    ruleKeys.map((ruleKey, i) => (
                         <li key={i}>
                             <div>
                                 <p>
-                                    {rule.name}
+                                    {ruleKey}
                                 </p>
                             </div>
                             <div className="check-box-container">
                                 {
                                 <Spinner
                                     customCheckMark={true}
-                                    success={rulesSuccess[rule.name]}
-                                    error={!rulesSuccess[rule.name]}
+                                    success={rulesSuccess[ruleKey]}
+                                    error={!rulesSuccess[ruleKey]}
                                     
                                 />
                                 }
                             </div>
                         </li>
                         )
-                    })
+                    )
                 }
             </ul> 
         )
-    }
+    };
 
     return (
         <section className="password-strength-meter">
@@ -75,9 +71,10 @@ export default function PasswordStrengthMeter(props) {
                 <input 
                     onChange={handleOnChange}
                     type="password"
+                    value={password}
                 />
                 {
-                    rules && rules.length && renderCheckBoxes()
+                    ruleKeys && ruleKeys.length && renderCheckBoxes()
                 }
             </form>
         </section>
