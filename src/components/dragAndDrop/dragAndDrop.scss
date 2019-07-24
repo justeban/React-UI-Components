@@ -1,5 +1,13 @@
+@import '../../styles/animations';
+@import '../../styles/variables';
+
 section.drag-and-drop {
+    animation: fadeIn $animation-time ease;
     height: 100%;
+    
+    &.exiting {
+        animation: fadeOut $animation-time ease;
+    }
 
     .moving-target {
         opacity: .5;

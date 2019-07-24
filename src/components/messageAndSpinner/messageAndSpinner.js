@@ -1,4 +1,5 @@
 import React, {useState} from 'react';
+import classNames from 'classnames';
 
 // Components
 import Form from './form/form';
@@ -76,7 +77,7 @@ export default function LeaveARequest (props) {
     }
 
     return (
-        <section className="message-spinner">
+        <section className={classNames({ 'message-spinner': true, 'exiting': props.config.exiting })}>
             <h3>Message and Spinner</h3>
             <Form
                 handleOnSubmit={handleOnSubmit}

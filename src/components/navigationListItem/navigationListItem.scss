@@ -34,6 +34,7 @@ section {
                 color: black;
                 border-radius: 3px;
                 display: flex;
+                flex-direction: column;
                 padding: 0;
                 position: relative;
                 width: 80%;
@@ -48,13 +49,18 @@ section {
                     padding: 0 100% 0 100%;
                     position: absolute;
                     top: 0;
+                    z-index: 1;
                 }
+                }
+
+                * {
+                    z-index: 2;
                 }
                 &.show {
                 animation: appear .5s ease forwards;
 
                 &:before {
-                    animation: slideDown .5s ease forwards,
+                    animation: slideDown .5s ease forwards;
                 }
 
                 li {

@@ -1,6 +1,5 @@
-import React, {Component}  from 'react';
-
-import NavigationListItem from './components/navigationListItem/navigationListItem';
+import React, {useState}  from 'react';
+import delay from './utils/delay';
 
 // SCSS
 import './App.scss';
@@ -9,77 +8,119 @@ import './App.scss';
 import SearchField from './components/searchField/searchField';
 import SearchFieldOptions from './components/searchField/searchFieldOptions';
 
+import PasswordStrengthMeter from './components/passwordStrengthMeter/passwordStrengthMeter';
+import PasswordStrengthMeterOptions from './components/passwordStrengthMeter/passwordStrengthMeterOptions';
+
 import DragAndDrop from './components/dragAndDrop/dragAndDrop';
 import MessageAndSpinner from './components/messageAndSpinner/messageAndSpinner';
 
-export default class App extends Component {
+import NavigationListItem from './components/navigationListItem/navigationListItem';
 
-  constructor(props) {
-    super(props);
+export default function App (props) {
 
-    this.state = {
-      components: [
-        'Search Field',
-        'Drag and Drop',
-        'Message and Spinner'
-      ],
-      componentOptions: {
-        'Search Field': SearchFieldOptions
-      },
-      configOptions: {
-        'Search Field': {
-          searchLimit: 10
+  // STATE
+
+  const [components] = useState([
+    'Drag and Drop',
+    'Message and Spinner',
+    'Password Strength Meter',
+    'Search Field'
+  ]);
+  const [componentOptions] = useState({
+    'Password Strength Meter': PasswordStrengthMeterOptions,
+    'Search Field': SearchFieldOptions
+  });
+
+  const [configOptions, setConfigOptions] = useState({
+    'Drag and Drop': {
+      exiting: false
+    },
+    'Message and Spinner': {
+      exiting: false
+    },
+    'Password Strength Meter': {
+      rules: {
+        'At Least One Capital Letter': {
+          regex: '[A-Z]'
         },
-        'Drag and Drop': {
+        'At Least One Number': {
+          regex: '\\d'
+        },
+        'A Special Character, like !,?,@, etc': {
+          regex: '[!@#\\$%\\^\\&*\\)\\(+=._-]+'
         }
       },
-      selectedComponent: ''
-      
+      exiting: false
+    },
+    'Search Field': {
+      exiting: false,
+      searchLimit: 10
+    }
+  });
+  const [selectedComponent, setSelectedComponent] = useState('');
+
+  // EVENT HANDLERS
+
+  const handleOnClick = async (component, transitionTime = 200) => {
+    if (selectedComponent === component) {
+      return;
+    } else if (selectedComponent === '') {
+      return setSelectedComponent(component);
+    } else {
+      setConfigValue(selectedComponent, {exiting: true});
+      delay(transitionTime - 1, null, () => setConfigValue(selectedComponent, {exiting: false}));
+      delay(transitionTime, null, () => setSelectedComponent(component));
+    }
+  };
+
+  const setConfigValue = (component, newProp) => {
+    const newConfig = {
+      ...configOptions,
+      [component]: {
+        ...configOptions[component],
+        ...newProp
+      }
     };
-  }
+    setConfigOptions(newConfig);
+  };
 
-  configHandler = (newConfigOptions) => {
-    this.setState({configOptions: newConfigOptions})
-  }
-
-  handleOnClick = (selectedComponent) => {
-    this.setState({selectedComponent});
-  }
-
-  render() {
-    return (
-      <main>
-        <section className="navigation">
-          <h1>React UI Components</h1>
-          <nav>
-            {
-              this.state.components.map((el, index) => (
-                <NavigationListItem
-                  configHandler={this.configHandler}
-                  config={this.state.configOptions[el]}
-                  el={el}
-                  handleOnClick={this.handleOnClick}
-                  key={index}
-                  options={this.state.componentOptions[el]}
-                />
-              ))
-            }
-          </nav>
-        </section>
-        <section className="component-viewer">
-          { this.state.selectedComponent === 'Search Field' && 
-            <SearchField config={this.state.configOptions['Search Field']} /> 
-          }
+  return (
+    <main>
+      <section className="navigation">
+        <h1>React UI Components</h1>
+        <nav>
           {
-            this.state.selectedComponent === 'Drag and Drop' &&
-            <DragAndDrop config={this.state.configOptions['Drag and Drop']} />
+            components.map((el, index) => (
+              <NavigationListItem
+                configHandler={setConfigValue}
+                config={configOptions[el]}
+                el={el}
+                handleOnClick={handleOnClick}
+                key={index}
+                options={componentOptions[el]}
+              />
+            ))
           }
-          {
-            this.state.selectedComponent === 'Message and Spinner' &&
-            <MessageAndSpinner />
-          }
-        </section>
-      </main>
-    );
-  }
+        </nav>
+      </section>
+      <section className="component-viewer">
+        {
+        selectedComponent === 'Search Field' &&
+        <SearchField config={configOptions['Search Field']} />
+        }
+        {
+          selectedComponent === 'Drag and Drop' &&
+          <DragAndDrop config={configOptions['Drag and Drop']} />
+        }
+        {
+          selectedComponent === 'Message and Spinner' &&
+          <MessageAndSpinner config={configOptions['Message and Spinner']} />
+        }
+        {
+          selectedComponent === 'Password Strength Meter' &&
+          <PasswordStrengthMeter config={configOptions['Password Strength Meter']}/>
+        }
+      </section>
+    </main>
+  );
 }

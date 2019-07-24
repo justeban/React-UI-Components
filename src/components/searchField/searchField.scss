@@ -1,4 +1,13 @@
+@import '../../styles/animations';
+@import '../../styles/variables';
+
 section.search-field {
+  animation: fadeIn $animation-time ease;
+
+  &.exiting {
+    animation: fadeOut $animation-time ease;
+  }
+  
   h3 {
     text-align: center;
   }
@@ -28,21 +37,19 @@ section.search-field {
     padding: 0 10px;
   }
   ul.available-words {
-    padding-top: 1em;
-    list-style-type: none;
     border-top: 1px solid #DDDDDD;
+    list-style-type: none;
     margin: 0;
+    max-height: 350px;
+    overflow-y: scroll;
     padding: 10px;
+    padding-top: 1em;
 
     li {
       cursor: pointer;
       line-height: 1.5em;
       position: relative;
 
-      &:hover {
-        
-      }
-      
       &:focus {
       color: rgb(38,35,53);
       font-weight: 500;

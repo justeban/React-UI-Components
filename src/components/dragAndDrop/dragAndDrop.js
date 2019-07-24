@@ -1,4 +1,5 @@
 import React, {useState} from 'react';
+import classNames from 'classnames';
 
 import './dragAndDrop.scss';
 
@@ -6,7 +7,7 @@ import './dragAndDrop.scss';
 const TODO = 'todo';
 const DONE = 'done';
 
-export default function DragAndDrop () {
+export default function DragAndDrop (props) {
      const [tasks, setTasks] = useState({
          done: [
              {
@@ -154,9 +155,12 @@ export default function DragAndDrop () {
             ))
         )
     }
-
+    
     return(
-        <section className="drag-and-drop">
+        <section className={classNames({
+            'drag-and-drop': true,
+            'exiting': props.config.exiting
+        })}>
             <h3>Drag and Drop</h3>
             <div className="col-2">
                 <div 

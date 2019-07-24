@@ -14,6 +14,7 @@ export default class SearchFieldOptions extends React.Component {
                         name="searchLimit"
                         type="number"
                         value={this.props.config.searchLimit}
+                        disabled={!this.props.expandOptions}
                     />
                 </li>
             </ul>
