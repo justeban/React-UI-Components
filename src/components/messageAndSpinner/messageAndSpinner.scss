@@ -1,10 +1,17 @@
+@import '../../styles/animations';
+@import '../../styles/variables';
+
 main {
     section {
         section.message-spinner {
+            animation: fadeIn $animation-time ease;
             font-size: 16px;
             height: 100%;
             text-align: center;
 
+            &.exiting {
+                animation: fadeOut $animation-time ease;
+            }
             form {
                 
                 height: 30%;

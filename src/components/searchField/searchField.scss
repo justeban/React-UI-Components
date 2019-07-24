@@ -1,9 +1,11 @@
 @import '../../styles/animations';
+@import '../../styles/variables';
 
 section.search-field {
-  animation: bounceIn 1s ease;
+  animation: fadeIn $animation-time ease;
+
   &.exiting {
-    animation: bounceOut 1s ease;
+    animation: fadeOut $animation-time ease;
   }
   
   h3 {

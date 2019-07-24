@@ -35,6 +35,9 @@ export default function App (props) {
     'Drag and Drop': {
       exiting: false
     },
+    'Message and Spinner': {
+      exiting: false
+    },
     'Password Strength Meter': {
       rules: {
         'At Least One Capital Letter': {
@@ -46,7 +49,8 @@ export default function App (props) {
         'A Special Character, like !,?,@, etc': {
           regex: '[!@#\\$%\\^\\&*\\)\\(+=._-]+'
         }
-      }
+      },
+      exiting: false
     },
     'Search Field': {
       exiting: false,
@@ -57,16 +61,16 @@ export default function App (props) {
 
   // EVENT HANDLERS
 
-  const handleOnClick = async (component, transitionTime = 500) => {
-
-    if (selectedComponent === component) { return; }
-
-    if (selectedComponent === '') { return setSelectedComponent(component); }
-
-    const prevSelectedComponent = selectedComponent;
-    if (prevSelectedComponent) { setConfigValue(prevSelectedComponent, {exiting: true}); }
-    delay(transitionTime - 1, null, () => setConfigValue(prevSelectedComponent, {exiting: false}));
-    delay(transitionTime, null, () => setSelectedComponent(component));
+  const handleOnClick = async (component, transitionTime = 200) => {
+    if (selectedComponent === component) {
+      return;
+    } else if (selectedComponent === '') {
+      return setSelectedComponent(component);
+    } else {
+      setConfigValue(selectedComponent, {exiting: true});
+      delay(transitionTime - 1, null, () => setConfigValue(selectedComponent, {exiting: false}));
+      delay(transitionTime, null, () => setSelectedComponent(component));
+    }
   };
 
   const setConfigValue = (component, newProp) => {
@@ -110,7 +114,7 @@ export default function App (props) {
         }
         {
           selectedComponent === 'Message and Spinner' &&
-          <MessageAndSpinner />
+          <MessageAndSpinner config={configOptions['Message and Spinner']} />
         }
         {
           selectedComponent === 'Password Strength Meter' &&
