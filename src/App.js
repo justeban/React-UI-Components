@@ -12,8 +12,10 @@ import PasswordStrengthMeter from './components/passwordStrengthMeter/passwordSt
 import PasswordStrengthMeterOptions from './components/passwordStrengthMeter/passwordStrengthMeterOptions';
 
 import DragAndDrop from './components/dragAndDrop/dragAndDrop';
-import MessageAndSpinner from './components/messageAndSpinner/messageAndSpinner';
+import {Provider} from './components/dragAndDrop/dragAndDropModule';
+import { initialState, reducers} from './components/dragAndDrop/store';
 
+import MessageAndSpinner from './components/messageAndSpinner/messageAndSpinner';
 import NavigationListItem from './components/navigationListItem/navigationListItem';
 
 export default function App (props) {
@@ -98,6 +100,7 @@ export default function App (props) {
                 handleOnClick={handleOnClick}
                 key={index}
                 options={componentOptions[el]}
+                selectedComponent={selectedComponent}
               />
             ))
           }
@@ -110,7 +113,9 @@ export default function App (props) {
         }
         {
           selectedComponent === 'Drag and Drop' &&
-          <DragAndDrop config={configOptions['Drag and Drop']} />
+          <Provider initialState={initialState} reducers={reducers}>
+            <DragAndDrop config={configOptions['Drag and Drop']} />
+          </Provider>
         }
         {
           selectedComponent === 'Message and Spinner' &&
