@@ -1,5 +1,4 @@
-const TODO = 'todo';
-const DONE = 'done';
+import {TOP} from './dragAndDropModule/DropTarget';
 
 export const initialState = {
     todo: [
@@ -27,35 +26,63 @@ const moveItem = ({state, setState}) => ({dragId, dropTargetId}) => {
     const arrayMovingTo = state[columnMovingTo];
     const itemMoving = arrayMovingFrom[index];
 
-    let newTodos;
-    let newDones;
+    const newState = {
+        ...state
+    };
     
-    switch(columnMovingFrom) {
-        case TODO:
-            newTodos = removeItemFromArray(state[columnMovingFrom], index);
-            newDones = addItemToArray(arrayMovingTo, itemMoving);
-            break;
-        case DONE:
-            newDones = removeItemFromArray(state[columnMovingFrom], index);
-            newTodos = addItemToArray(arrayMovingTo, itemMoving);
-            break;
-        default:
-            return;
-    }
+    newState[columnMovingFrom] = removeItemFromArray(arrayMovingFrom, index);
+    newState[columnMovingTo] = addItemToArray(arrayMovingTo, itemMoving);
     
-    setState({
-        todo: newTodos,
-        done: newDones
-    });
+    setState(newState);
+}
+
+const moveItemOnDragOver = ({ state, setState }) => (dragProps) => {
+    const {
+        draggedOverId,
+        dragId,
+        dropTargetId,
+        position
+    } = dragProps;
+
+    const [columnMovingFrom, index] = dragId.split('-');
+    const arrayMovingFrom = state[columnMovingFrom]
+    const columnMovingTo = dropTargetId.split('-')[0];
+    const arrayMovingTo = state[columnMovingTo];
+    const itemMoving = arrayMovingFrom[index];
+    
+    const [, idx] = draggedOverId.split('-');
+    const _index = position === TOP ? parseInt(idx) : parseInt(idx) + 1;
+    const __index = _index < 0 ? 0 : _index;
+
+    const newState = {
+        ...state
+    };
+
+    newState[columnMovingFrom] = removeItemFromArray(arrayMovingFrom, index);
+    newState[columnMovingTo] = addItemToArrayByIndex(arrayMovingTo, itemMoving, __index);
+
+    setState(newState);
 }
 
 function removeItemFromArray(arr, index) {
     return arr.filter((item, i) => index !== `${i}`);
 }
+
 function addItemToArray(arr, item) {
     return [...arr, item];
 }
 
-export const reducers = {
-    moveItem
+function addItemToArrayByIndex(arr, item, idx) {
+    const newArr = [];
+    arr.forEach((el, i) => {
+        if (i === idx) { newArr.push(item); }
+        newArr.push(el);
+    });
+    if (arr.length === newArr.length) { newArr.push(item); }
+    return newArr;
 }
+
+export const reducers = {
+    moveItem,
+    moveItemOnDragOver
+};

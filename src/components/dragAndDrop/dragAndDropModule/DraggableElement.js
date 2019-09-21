@@ -20,10 +20,6 @@ export default function DraggableElement (props) {
         const movingItem = e.target;
         movingItem.classList.remove('moving-target');
     };
-    
-    const elProps = {
-        
-    };
 
     return (
         <div
@@ -34,10 +30,7 @@ export default function DraggableElement (props) {
             onDragStart={handleOnDragStart}
         >
             {
-                React.cloneElement(
-                    children,
-                    elProps
-                )
+                React.cloneElement(children)
             }
         </div>
     );
