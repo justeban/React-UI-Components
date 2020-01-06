@@ -1,146 +1,143 @@
-import React from 'react';
+import React, {useState} from 'react';
 import classNames from 'classnames';
 import * as SearchService from './api';
 
 // SCSS
 import './searchField.scss';
 
-export default class SearchField extends React.Component {
+export default function SearchField(props) {
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      availableWords: [],
-      indexForActiveElement: -1,
-      query: '',
-      searchLimit: this.props.config.searchLimit,
-      exiting: this.props.exiting || false,
-      value: null
-    } 
-  }
+  const [availableWords, setAvailableWords] = useState([]);
+  const [indexForActiveElement, setIndexForActiveElement] = useState(-1);
+  const [query, setQuery] = useState('');
+  const [searchLimit, setSearchLimit] = useState(props.config.searchLimit);
+  const [exiting, setExiting] = useState(props.config.exiting || false);
+  const [value, setValue] = useState(null);
 
   /** __EVENT HANDLERS__ **/
 
   // FORM EVENTS 
-  handleOnChange = (e) => {
-    this.checkQueryAndChangeState(e.target.value);
-  }
+  const handleOnChange = (e) => {
+    checkQueryAndChangeState(e.target.value);
+  };
 
-  handleFormOnSubmit = (e) => {
+  const handleFormOnSubmit = (e) => {
     e.preventDefault();
-  }
+  };
   
-  handleFormOnKeyDown = (e) => {
+  const handleFormOnKeyDown = (e) => {
     // IF TAB INCREMENT INDEX
     if (e.keyCode === 9) {
-      this.setState({ indexForActiveElement: this.state.indexForActiveElement + 1 });
+      setIndexForActiveElement(indexForActiveElement + 1);
     }
-    this.traverseAvailableWords(e.keyCode);
-  }
+    traverseAvailableWords(e.keyCode);
+  };
 
   // AVAILABLE WORDS EVENTS
-  handleAvailableWordOnClick = (e) => {
-    this.checkQueryAndChangeState(e.target.dataset.word);
-  }
+  const handleAvailableWordOnClick = (e) => {
+    checkQueryAndChangeState(e.target.dataset.word);
+  };
 
-  handleAvailableWordOnKeyDown = (e) => {
+  const handleAvailableWordOnKeyDown = (e) => {
     switch (e.keyCode) {
       // ENTER
       case 13:
-        this.checkQueryAndChangeState(e.target.dataset.word);
+        checkQueryAndChangeState(e.target.dataset.word);
         break;
       // KEY DOWN
       case 40:
-        this.traverseAvailableWords(40);
+        traverseAvailableWords(40);
         break;
       // KEY UP
       case 38:
-        this.traverseAvailableWords(38);
+        traverseAvailableWords(38);
         break;
       // TAB KEY - Increment Index
       case 9:
-        this.setState({indexForActiveElement : this.state.indexForActiveElement + 1});
+        setIndexForActiveElement(indexForActiveElement + 1);
         break;
       default:
         return;
     }
-  }
+  };
 
-  hanleAvailableWordListOnBlur = (e) => {
-    this.setState({ indexForActiveElement: -1});
-  }
+  const handleAvailableWordListOnBlur = (e) => {
+    setIndexForActiveElement(-1);
+  };
 
   // OPTIONS EVENTS
-  handleOptionsOnChange = (e) => {
-    const searchLimit = e.value;
-    this.setState({searchLimit});
-  }
+  const handleOptionsOnChange = (e) => {
+    const _searchLimit = e.value;
+    setSearchLimit(_searchLimit);
+  };
 
   /** __END OF EVENT HANDLERS__ **/
 
-  checkQueryAndChangeState = (query) => {
-    const { availableWords, value } = SearchService.checkTerm(query);
-    this.setState(Object.assign({}, this.state, { query, availableWords, value }));
-  }
+  const checkQueryAndChangeState = (_query) => {
+    const { availableWords: _availableWords, value: _value } = SearchService.checkTerm(_query);
+    setAvailableWords(_availableWords);
+    setQuery(_query);
+    setValue(_value);
+  };
 
-  traverseAvailableWords = (keyCode) => {
+  const traverseAvailableWords = (keyCode) => {
     const availableWordNodes = 
       document.getElementById('availableWords') 
       && document.getElementById('availableWords').children;
 
-    let indexForActiveElement = this.state.indexForActiveElement;
+    let _indexForActiveElement = indexForActiveElement;
 
     // If DOWN ARROW pressed
     if (availableWordNodes && keyCode === 40) {
-      indexForActiveElement += 1;
+      _indexForActiveElement += 1;
       // If we are at the end of the list
-      if (indexForActiveElement > availableWordNodes.length - 1) {
-        indexForActiveElement = 0;
+      if (_indexForActiveElement > availableWordNodes.length - 1) {
+        _indexForActiveElement = 0;
       }
-      availableWordNodes[indexForActiveElement].focus();
-      this.setState(Object.assign({}, this.state, { indexForActiveElement }));
+      availableWordNodes[_indexForActiveElement].focus();
+      setIndexForActiveElement(_indexForActiveElement);
     }
 
     // If UP ARROW pressed
     if (availableWordNodes && keyCode === 38) {
-      indexForActiveElement -= 1;
+      _indexForActiveElement -= 1;
       // If we are at the top of the list
-      if (indexForActiveElement < 0) {
-        indexForActiveElement = availableWordNodes.length - 1;
+      if (_indexForActiveElement < 0) {
+        _indexForActiveElement = availableWordNodes.length - 1;
       }
-      availableWordNodes[indexForActiveElement].focus();
-      this.setState(Object.assign({}, this.state, { indexForActiveElement }));
+      availableWordNodes[_indexForActiveElement].focus();
+      setIndexForActiveElement(_indexForActiveElement);
     }
-  }
+  };
 
-  renderWordEntry = (value = this.state.value) => (
+  const renderWordEntry = (_value = value) => (
     <div className="word-entry">
-      <h4 className="word">{value && value.word}</h4>
+      <h4 className="word">{_value && _value.word}</h4>
       <ul className="word-defs">
         {
-          value &&
-          value.meanings.map((el, index) => (
+          _value &&
+          _value.meanings.map((el, index) => (
             <li key={index}>{el.def}</li>
           ))
         }
       </ul>
     </div>
-  )
+  );
 
-  renderAvailableWords = (availableWords = this.state.availableWords) => (
+  const renderAvailableWords = (_availableWords = availableWords) => (
     <ul
-      onBlur={this.hanleAvailableWordListOnBlur} 
+      onBlur={handleAvailableWordListOnBlur} 
       id="availableWords" 
       className="available-words">
       {
-        availableWords &&
-        availableWords.length > 0 &&
-        availableWords.map((el, index) => (
-          index < this.props.config.searchLimit &&
+        _availableWords &&
+        _availableWords.length > 0 &&
+        _availableWords.map((el, index) => (
+          index < searchLimit &&
             <li 
               // EVENT HANDLERS
-              onClick={this.handleAvailableWordOnClick} 
-              onKeyDown={this.handleAvailableWordOnKeyDown}
+              onClick={handleAvailableWordOnClick} 
+              onKeyDown={handleAvailableWordOnKeyDown}
               // PROPS
               data-word={el}
               key={index}
@@ -152,11 +149,12 @@ export default class SearchField extends React.Component {
         ))
       }
     </ul>
-  )
-  renderNoAvailableWords = () => {
-    return this.state.query 
-      && this.state.query.length > 0 
-      && !this.state.value
+  );
+
+  const renderNoAvailableWords = () => {
+    return query 
+      && query.length > 0 
+      && !value
       && (<p className="no-available-words">
           <em>
             No Matching Words Available
@@ -164,33 +162,31 @@ export default class SearchField extends React.Component {
         </p>);
     };
 
-    render() {
-      return (
-        <section className={classNames({'search-field': true, 'exiting': this.props.config.exiting})}>
-          <h3>Search Field</h3>
-          <form onSubmit={this.handleFormOnSubmit}>
-            <div>
-              <input 
-                onChange={this.handleOnChange} 
-                onKeyDown={this.handleFormOnKeyDown} 
-                autoComplete="off" 
-                type="text" 
-                name="query"
-                placeholder="Start typing..."
-                value={this.state.query || ''}
-              />
-              {
-                this.state.availableWords && 
-                this.state.availableWords.length > 0
-                ? this.renderAvailableWords() 
-                : this.renderNoAvailableWords()
-              }
-              </div>
-          </form>
+  return (
+    <section className={classNames({'search-field': true, 'exiting': exiting})}>
+      <h3>Search Field</h3>
+      <form onSubmit={handleFormOnSubmit}>
+        <div>
+          <input 
+            onChange={handleOnChange} 
+            onKeyDown={handleFormOnKeyDown} 
+            autoComplete="off" 
+            type="text" 
+            name="query"
+            placeholder="Start typing..."
+            value={query || ''}
+          />
           {
-            this.state.value && this.renderWordEntry()
+            availableWords && 
+            availableWords.length > 0
+            ? renderAvailableWords() 
+            : renderNoAvailableWords()
           }
-        </section>
-      );
-  }
+          </div>
+      </form>
+      {
+        value && renderWordEntry()
+      }
+    </section>
+  );
 }
