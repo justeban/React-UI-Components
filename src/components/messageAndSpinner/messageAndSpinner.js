@@ -75,9 +75,9 @@ export default function LeaveARequest (props) {
             </Message>
         );
     }
-
+    const exiting = (props.config && props.config.exiting) || false;
     return (
-        <section className={classNames({ 'message-spinner': true, 'exiting': props.config.exiting })}>
+        <section className={classNames({ 'message-spinner': true, 'exiting': exiting })}>
             <h3>Message and Spinner</h3>
             <Form
                 handleOnSubmit={handleOnSubmit}

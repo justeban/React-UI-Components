@@ -133,7 +133,7 @@ export default function SearchField(props) {
         _availableWords &&
         _availableWords.length > 0 &&
         _availableWords.map((el, index) => (
-          index < searchLimit &&
+          index < props.config.searchLimit &&
             <li 
               // EVENT HANDLERS
               onClick={handleAvailableWordOnClick} 

@@ -8,9 +8,8 @@ import './dragAndDrop.scss';
 function DragAndDrop (props) {
 
      const displayTodos = () => {
-        const todoTasks = props.todo;
         return (
-            todoTasks.map((task, i) => (
+            props.todo.map((task, i) => (
                 <DraggableElement
                     allowedDropTargets={[
                         'done-column'
@@ -27,9 +26,8 @@ function DragAndDrop (props) {
      };
 
     const displayDones = () => {
-        const doneTasks = props.done;
         return (
-            doneTasks.map((task, i) => (
+            props.done.map((task, i) => (
                 <DraggableElement 
                     allowedDropTargets={[
                         'todo-column',
@@ -44,11 +42,11 @@ function DragAndDrop (props) {
             ))
         )
     };
-
+    const exiting = (props.config && props.config.exiting) || false;
     return (
         <section className={classNames({
             'drag-and-drop': true,
-            'exiting': props.config.exiting
+            'exiting': exiting
         })}>
             <h3>Drag and Drop</h3>
             <div className="col-2">

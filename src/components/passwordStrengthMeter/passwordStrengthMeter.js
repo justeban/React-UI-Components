@@ -9,15 +9,15 @@ import './passwordStrengthMeter.scss';
 
 export default function PasswordStrengthMeter(props) {
     const [rules, setRules] = useState(props.config.rules);
-    const [ruleKeys, setRuleKeys] = useState(Object.keys(rules));
+    const [ruleKeys, setRuleKeys] = useState(Object.keys(props.config.rules));
     const [password, setPassword] = useState('');
     const [isPasswordVisible, setIsPasswordVisible] = useState(false);
     
-    const [rulesSuccess, setRulesSuccess] =  useState(
-        Object.keys(rules).reduce((acc, ruleKey) => {
-            acc[ruleKey] = false;
-            return acc
-        }, {})
+    const [rulesSuccess, setRulesSuccess] = useState(
+      Object.keys(props.config.rules).reduce((acc, ruleKey) => {
+        acc[ruleKey] = false;
+        return acc;
+      }, {})
     );
 
     useEffect(() => {
@@ -27,12 +27,12 @@ export default function PasswordStrengthMeter(props) {
 
     useEffect(() => {
         const _rulesSucces = {};
-        ruleKeys.forEach((rule, index) => {
-            const conditionMet = new RegExp(rules[rule].regex, 'g').test(password);
+        Object.keys(props.config.rules).forEach((rule, index) => {
+            const conditionMet = new RegExp(props.config.rules[rule].regex, 'g').test(password);
             _rulesSucces[rule] = conditionMet;
         });
         setRulesSuccess(_rulesSucces);
-    }, [password, rules, ruleKeys]);
+    }, [password, props.config.rules, ruleKeys]);
 
     const handleOnChange = e => {
         const password = e.target.value;
@@ -44,7 +44,7 @@ export default function PasswordStrengthMeter(props) {
     };
     
     const determineProgress = () => {
-        const numOfRules = ruleKeys.length;
+        const numOfRules = Object.keys(props.config.rules).length;
         const numSuccess = Object.values(rulesSuccess).filter(Boolean).length;
         return `${numSuccess / numOfRules * 100}%`;
     };
@@ -53,7 +53,7 @@ export default function PasswordStrengthMeter(props) {
         return (
             <ul className="password-checks">
                 {
-                    ruleKeys.map((ruleKey, i) => (
+                    Object.keys(props.config.rules).map((ruleKey, i) => (
                         <li key={i}>
                             <div>
                                 <p>
@@ -77,7 +77,6 @@ export default function PasswordStrengthMeter(props) {
             </ul> 
         )
     };
-
     return (
         <section className={classNames({ 'password-strength-meter': true, 'exiting': props.config.exiting })}>
         <h3>Password Strength Meter</h3>

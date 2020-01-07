@@ -1,60 +1,57 @@
 @import '../../styles/animations';
 @import '../../styles/variables';
 
-main {
-    section {
-        section.message-spinner {
-            animation: fadeIn $animation-time ease;
+
+section.message-spinner {
+    animation: fadeIn $animation-time ease;
+    font-size: 16px;
+    height: 100%;
+    text-align: center;
+
+    &.exiting {
+        animation: fadeOut $animation-time ease;
+    }
+    form {
+        
+        height: 30%;
+        min-height: 200px;
+        position: relative;
+
+        textarea {
+            background: white;
+            border: solid 1px #ddd;
+            border-radius: 12px;
+            display: block;
             font-size: 16px;
             height: 100%;
-            text-align: center;
+            margin: 2em auto;
+            min-height: 250px;
+            min-width: 500px;
+            padding: 2em;
 
-            &.exiting {
-                animation: fadeOut $animation-time ease;
+            width: 70%;
+
+            &:focus {
+                outline: none;
+                border: solid 2px #ddd;
             }
-            form {
-                
-                height: 30%;
-                min-height: 200px;
-                position: relative;
+        }
+        button {
+            background: #52acc7;
+            border-radius: 5px;
+            color: white;
+            font-size: 16px;
+            margin: 0 .5em;
+            padding: .6em;
 
-                textarea {
-                    background: white;
-                    border: solid 1px #ddd;
-                    border-radius: 12px;
-                    display: block;
-                    font-size: 16px;
-                    height: 100%;
-                    margin: 2em auto;
-                    min-height: 250px;
-                    min-width: 500px;
-                    padding: 2em;
-
-                    width: 70%;
-
-                    &:focus {
-                        outline: none;
-                        border: solid 2px #ddd;
-                    }
-                }
-                button {
-                    background: #52acc7;
-                    border-radius: 5px;
-                    color: white;
-                    font-size: 16px;
-                    margin: 0 .5em;
-                    padding: .6em;
-
-                    &:hover {
-                        cursor: pointer;
-                    }
-                    &[name="failure"]{
-                        background: #DE89BE;
-                    }
-                    &[disabled] {
-                        cursor: not-allowed;
-                    }
-                }
+            &:hover {
+                cursor: pointer;
+            }
+            &[name="failure"]{
+                background: #DE89BE;
+            }
+            &[disabled] {
+                cursor: not-allowed;
             }
         }
     }
