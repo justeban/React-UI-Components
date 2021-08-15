@@ -5,21 +5,27 @@ import delay from './utils/delay';
 import './App.scss';
 
 // COMPONENTS
-import SearchField from './components/searchField/searchField';
-import SearchFieldOptions from './components/searchField/searchFieldOptions';
+import {
+  Component as SearchField, 
+  ComponentOptions as SearchFieldOptions
+} from './components/searchField';
 
-import PasswordStrengthMeter from './components/passwordStrengthMeter/passwordStrengthMeter';
-import PasswordStrengthMeterOptions from './components/passwordStrengthMeter/passwordStrengthMeterOptions';
+import {
+  Component as PasswordStrengthMeter,
+  ComponentOptions as PasswordStrengthMeterOptions
+ } from './components/passwordStrengthMeter';
 
-import DragAndDrop from './components/dragAndDrop/dragAndDrop';
-import {Provider} from './components/dragAndDrop/dragAndDropModule';
-import { initialState, reducers} from './components/dragAndDrop/store';
+import {
+  Component as DragAndDrop,
+  Provider,
+  initialState,
+  reducers
+} from './components/dragAndDrop';
 
-import MessageAndSpinner from './components/messageAndSpinner/messageAndSpinner';
+import {Component as MessageAndSpinner} from './components/messageAndSpinner';
 import NavigationListItem from './components/navigationListItem/navigationListItem';
 
-export default function App (props) {
-
+export default function App () {
   // STATE
 
   const [components] = useState([

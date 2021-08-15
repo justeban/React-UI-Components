@@ -10,8 +10,8 @@ export default function SearchField(props) {
   const [availableWords, setAvailableWords] = useState([]);
   const [indexForActiveElement, setIndexForActiveElement] = useState(-1);
   const [query, setQuery] = useState('');
-  const [searchLimit, setSearchLimit] = useState(props.config.searchLimit);
-  const [exiting, setExiting] = useState(props.config.exiting || false);
+  const [, setSearchLimit] = useState(props.config.searchLimit);
+  const [exiting] = useState(props.config.exiting || false);
   const [value, setValue] = useState(null);
 
   /** __EVENT HANDLERS__ **/
@@ -155,11 +155,13 @@ export default function SearchField(props) {
     return query 
       && query.length > 0 
       && !value
-      && (<p className="no-available-words">
+      && (
+        <p className="no-available-words">
           <em>
             No Matching Words Available
           </em>
-        </p>);
+        </p>
+      );
     };
 
   return (
